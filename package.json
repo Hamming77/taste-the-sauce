@@ -22,7 +22,9 @@
     "@babel/plugin-proposal-private-methods": "^7.13.0",
     "@babel/preset-env": "^7.13.12",
     "@babel/register": "^7.13.14",
+    "chai-sorted": "^0.2.0",
     "cypress": "^12.5.0",
+    "cypress-map": "^1.21.0",
     "prettier": "^2.8.3",
     "prop-types": "^15.7.2"
   },
@@ -30,7 +32,8 @@
     "start": "react-scripts start",
     "start-18": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
-    "test": "cypress run"
+    "test": "cypress run",
+    "open": "cypress open --e2e"
   },
   "browserslist": {
     "production": [
