@@ -22,12 +22,12 @@ describe('sorting', () => {
 
   /**
    * Sorts item by price
-   * @param {'lohi'|'hilo'} order
+   * @param {'lohi'|'hilo'|'az'|'za'} order
    */
-  function sortByPrice(order) {
+  function sortByNameOrPrice(order) {
     // confirm the argument value at runtime
-    expect(order, 'sort order').to.be.oneOf(['lohi', 'hilo'])
-    cy.log(`**sort by price ${order}**`)
+    expect(order, 'sort order').to.be.oneOf(['lohi', 'hilo', 'az', 'za'])
+    cy.log(`**sort by ${order}**`)
     cy.get('[data-test="product_sort_container"]').select(order)
   }
 
@@ -40,18 +40,33 @@ describe('sorting', () => {
       .print('sorted prices %o')
   }
 
+  function getNames() {
+    return cy
+      .get('.inventory_item_name')
+      .map('innerText')
+      // .mapInvoke('slice', 1)
+      // .map(Number)
+      .print('sorted names %o')
+  }
+
   it('by price lowest to highest', () => {
-    sortByPrice('lohi')
+    sortByNameOrPrice('lohi')
     getPrices().should('be.ascending')
   })
 
   it('by price highest to lowest', () => {
-    sortByPrice('hilo')
+    sortByNameOrPrice('hilo')
     // confirm the item prices are sorted from highest to lowest
     getPrices().should('be.descending')
   })
 
-  it('by name from A to Z')
+  it('by name from A to Z', () => {
+    sortByNameOrPrice('az')
+    getNames().should('be.ascending')
+  })
 
-  it('by name from Z to A')
+  it('by name from Z to A', () => {
+    sortByNameOrPrice('za')
+    getNames().should('be.descending')
+  })
 })
