@@ -16,12 +16,19 @@ beforeEach(() => {
 it('has every item from the inventory', () => {
   // load the inventory JSON fixture file
   // https://on.cypress.io/fixture
-  //
   // iterate over every data item
-  //
   // and confirm there is an item on the page
   // with the name, description, and price listed
   // https://on.cypress.io/contains
   // https://on.cypress.io/within
   // Note: check the properties in the inventory object
+  cy.fixture('inventory').then(itemsList => {
+    itemsList.forEach(element => {
+      cy.contains('.inventory_item', element.name).within(() => {
+        cy.contains('.inventory_item_name', element.name)
+        cy.contains('.inventory_item_desc', element.desc)
+        cy.contains('.inventory_item_price', element.price)
+      })
+    });
+  })
 })
