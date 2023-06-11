@@ -10,8 +10,8 @@ import 'cypress-map'
 // https://www.chaijs.com/plugins/chai-sorted/
 chai.use(require('chai-sorted'))
 
-describe('sorting', () => {
-  beforeEach(() => {
+describe('sorting', {testIsolation: false}, () => {
+  before(() => {
     cy.log('**log in**')
     cy.visit('/')
     cy.get('[data-test="username"]').type('standard_user')
