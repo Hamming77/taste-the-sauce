@@ -7,8 +7,10 @@
 import { LoginPage } from './login.page'
 
 // enable the test once you get the username and the password
-it.skip('logs out', () => {
-  LoginPage.login(/* username, password */)
+it('logs out', () => {
+  /**@type {{username: string, password: string}} */
+  const user = Cypress.env('users').standard
+  LoginPage.login(user.username, user.password)
   cy.visit('/inventory.html')
   cy.location('pathname').should('equal', '/inventory.html')
   cy.contains('button', 'Open Menu').click()
