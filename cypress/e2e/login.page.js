@@ -28,5 +28,12 @@ export const LoginPage = {
   },
   login(username, password) {
     // implement the user login using any of the previously shown methods
+    cy.session(`user ${username} session`, () => {
+      cy.visit('/')
+      LoginPage.getUsername().type(username)
+      LoginPage.getPassword().type(password, {log: false})
+      LoginPage.getLogin().click()
+      cy.location('pathname').should('equal', '/inventory.html')
+    })
   },
 }
