@@ -33,24 +33,31 @@ describe('Product', () => {
     // https://on.cypress.io/contains
     // https://on.cypress.io/find
     // https://on.cypress.io/click
-    //
+    cy.contains('.inventory_item', name)
+      .find('.inventory_item_label a')
+      .click()
     // confirm we transition to the item's page
     // https://on.cypress.io/location
-    //
+    cy.location('pathname').should('equal', '/inventory-item.html')
     // we do not know the item id, thus check
     // that the search parameters in the URL
     // simply have id=number
-    //
+    cy.location('search').should('match', /id=\d+/)
     // confirm the item details component is visible
-    //
+    cy.get('.inventory_details_container')
+      .should('be.visible')
+      
     // and inside has the item's name (with large size class)
     // and the item's expected price
     // https://on.cypress.io/within
-    //
+      .within(($details) => {
+        cy.contains('.inventory_details_name.large_size', name)
+        cy.contains('.inventory_details_price', price)
+      }) 
     // go back to the inventory page by clicking
     // "Back to products" button
-    //
+    cy.get('[data-test="back-to-products"]').click()
     // confirm we are back at the inventory page
-    //
+    cy.location('pathname').should('equal', '/inventory.html')
   })
 })
