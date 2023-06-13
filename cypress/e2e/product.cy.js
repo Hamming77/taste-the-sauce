@@ -4,6 +4,7 @@
 // https://on.cypress.io/intelligent-code-completion
 /// <reference types="cypress" />
 
+import { string } from 'prop-types'
 import { LoginPage } from './login.page'
 
 describe('Product', () => {
@@ -41,20 +42,26 @@ describe('Product', () => {
     // and inside find the anchor link element
     // https://on.cypress.io/contains
     // https://on.cypress.io/find
-    cy.contains('.inventory_item', name)
-      .find('.inventory_item_label a')
-      // Since you know the item's id
-      // you can confirm the exact value of the "id" attribute
-      // (it has item id with title link text)
-      //
-      // click on the anchor link
-      .click()
-    // confirm we transition to the item's page
-    // https://on.cypress.io/location
-    cy.location('pathname').should('equal', '/inventory-item.html')
-    // because we know the item's id
-    // confirm the URL search parameter string
-    // includes "id=item id" substring
+    cy.contains('.inventory_item', name).should('have.attr', 'data-itemid')
+      .should('be.a', 'string')
+      .then((itemId) => {
+        cy.contains('.inventory_item', name)
+          .find('.inventory_item_label a')
+          // Since you know the item's id
+          // you can confirm the exact value of the "id" attribute
+          // (it has item id with title link text)
+          //
+          // click on the anchor link
+          .click()
+        // confirm we transition to the item's page
+        // https://on.cypress.io/location
+        cy.location('pathname').should('equal', '/inventory-item.html')
+        // because we know the item's id
+        // confirm the URL search parameter string
+        // includes "id=item id" substring
+        cy.location('search').should('include', `id=${itemId}`)
+      })
+
     //
     // confirm the item details component is visible
     cy.get('#inventory_item_container .inventory_details')
