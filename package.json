@@ -32,7 +32,8 @@
     "start": "react-scripts start",
     "start-18": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
-    "test": "echo Write more tests!"
+    "test": "echo Write more tests!",
+    "open": "cypress open --e2e"
   },
   "browserslist": {
     "production": [
