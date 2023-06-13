@@ -33,5 +33,16 @@ describe('Products', () => {
     // and confirm the ids are unique
     // https://on.cypress.io/invoke
     // https://glebbahmutov.com/cypress-examples
-  })
+
+    cy.get('.inventory_item')
+      // wait for the list to be stable
+      .should('have.length', 6)
+      .invoke('toArray')
+      .then(elements => elements.map((el) => el.getAttribute('data-itemid')))
+      .then(console.log)
+      .should(ids => {
+        const unique = Cypress._.uniq(ids)
+        expect(unique).to.deep.equal(ids)
+      })
+    })
 })
