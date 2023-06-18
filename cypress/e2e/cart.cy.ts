@@ -35,22 +35,37 @@ describe('Cart', () => {
         'Sauce Labs Onesie',
       ]
       // add each item to cart using the InventoryPage object
+      items.forEach(InventoryPage.addItemToCart)
       cy.log('**added all items to cart**')
       // confirm the cart badge shows the right number of items
+      InventoryPage.getCartBadge()
+        .should('have.text', items.length)
+        .scrollIntoView()
+        .should('be.visible')
       // then click on it
       // https://on.cypress.io/click
+      .click()
       // confirm we move to the cart page
       // https://on.cypress.io/location
-      //
+      cy.location('pathname').should('equal', '/cart.html')
       // confirm the cart items list has the right number of elements
+      cy.get('.cart_list .cart_item').should('have.length', items.length)
       cy.log('**shows each item in order**')
       // iterate over the items
-      // confirm each itm is at the right place
-      // on the page in the list of items
-      // https://on.cypress.io/get
-      // https://on.cypress.io/eq
-      // and confirm that within the item the name
-      // is correct and the quantity is 1
+      items.forEach((itemName, k) => {
+        // confirm each item is at the right place
+        // on the page in the list of items
+        // https://on.cypress.io/get
+        // https://on.cypress.io/eq
+        cy.get('.cart_list .cart_item')
+          .eq(k)
+          .within(() => {
+            // and confirm that within the item the name
+            // is correct and the quantity is 1
+            cy.contains('.inventory_item_name', itemName)
+            cy.contains('.cart_quantity', 1)
+          })
+      })
     },
   )
 })
