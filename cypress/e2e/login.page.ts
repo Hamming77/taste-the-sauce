@@ -45,10 +45,8 @@ export const LoginPage = {
       {
         validate() {
           cy.log('**validate login session**')
-          // try visiting the page and
-          // confirm the browser stays at /inventory.html
-          cy.visit('/inventory.html')
-          cy.location('pathname').should('equal', '/inventory.html')
+          //if cookie does not exist, validation() fails and session has to be recreated
+          cy.getCookie('session-username').should('exist')
         },
       },
     )
