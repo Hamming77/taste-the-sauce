@@ -60,13 +60,18 @@ describe('Cart', () => {
       })
       // get the application window object
       // https://on.cypress.io/window
+      cy.window()
       // get its property "localStorage"
       // https://on.cypress.io/its
+        .its('localStorage')
       // and call the method "getItem" to get the cart contents
       // https://on.cypress.io/invoke
-      // confirm the list is [0, 1, 2]
+        .invoke('getItem','cart-contents')
+        .should('exist')
+      // confirm the list is [0,1,2]
       // https://glebbahmutov.com/cypress-examples/commands/assertions.html
       // Tip: local storage usually has stringified JSON
+        .should('deep.equal', [0,1,2])
     },
   )
 })
